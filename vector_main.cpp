@@ -5,6 +5,10 @@
 #include <ctime>
 #include <vector>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+
+
 
 using namespace std;
 
@@ -23,6 +27,7 @@ void pasirinkimas2(vector<stud>& grupe);
 void pasirinkimas3(vector<stud>& grupe);
 void printrez(const vector<stud>& grupe);
 void MedianaVidurkis(stud& grupe);
+void pasirinkimas4(vector<stud>& grupe);
 
 int main() {
     srand(time(NULL));
@@ -30,17 +35,16 @@ int main() {
     char pasirinkimas;
     do {
         do {
-            cout << "1 - Ivesti duomenis ranka\n2 - Generuoti pazymius\n3 - Generuoti ir pazymius, ir studentu vardus, ir pavardes\n4 - Baigti darba\nPasirinkimas: ";
-            cin >> pasirinkimas;
-        } while (!(pasirinkimas == '1' || pasirinkimas == '2' || pasirinkimas == '3' || pasirinkimas == '4'));
-
+            cout << "1 - Ivesti duomenis ranka\n2 - Generuoti pazymius\n3 - Generuoti ir pazymius, ir studentu vardus, ir pavardes\n4 - Skaityti duomenis is failo\n5 - Baigti darba\nPasirinkimas: ";            cin >> pasirinkimas;
+        } while (!(pasirinkimas == '1' || pasirinkimas == '2' || pasirinkimas == '3' || pasirinkimas == '4'|| pasirinkimas == '5'));
         if (pasirinkimas=='1') pasirinkimas1(grupe);
         else if (pasirinkimas=='2') pasirinkimas2(grupe);
         else if (pasirinkimas=='3') pasirinkimas3(grupe);
-        else if (pasirinkimas=='4') break;
+        else if (pasirinkimas=='4') pasirinkimas4(grupe);
+        else if (pasirinkimas=='5') break;
         else cout << "Neteisingas pasirinkimas. Bandykite dar karta.\n";
 
-    } while (pasirinkimas != '4');
+    } while (pasirinkimas != '5');
     return 0;
 }
 
@@ -206,4 +210,3 @@ void pasirinkimas4(vector<stud>& grupe) {
     fr.close();
     //**********
 }
-
