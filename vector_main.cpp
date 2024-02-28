@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <chrono>
 
 
 
@@ -26,7 +27,7 @@ struct stud {
 void pasirinkimas1(vector<stud>& grupe);
 void pasirinkimas2(vector<stud>& grupe);
 void pasirinkimas3(vector<stud>& grupe);
-void printrez(const vector<stud>& grupe);
+void printrez(vector<stud>& grupe);
 void MedianaVidurkis(stud& grupe);
 void pasirinkimas4(vector<stud>& grupe);
 void sorting(vector<stud>& grupe);
@@ -112,21 +113,33 @@ void pasirinkimas3(vector<stud>& grupe) {
     printrez(grupe);
 }
 
-void printrez(const vector<stud>& grupe) {
+void printrez(vector<stud>& grupe) {
     char vid_med;
-    double a = -1;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do{
     cin >> vid_med;
     }while(vid_med!='v'&&vid_med!='m');
-    cout << "Vardas              Pavarde             "; if (vid_med == 'v') cout <<"Galutinis (Vid.)"<< endl;
-                                            else if (vid_med == 'm') cout <<"Galutinis (Med.)"<< endl;
-    cout << "--------------------------------------------------------" << endl;
+
+    //galutinis***************
+    double a = -1;
     for (int i = 0; i < grupe.size(); i++) {
         if (vid_med == 'v') a = grupe[i].vid;
         else if (vid_med == 'm') a = grupe[i].med;
         double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
-        cout << left << setw(20) << grupe[i].vard << left << setw(20) << grupe[i].pav << left << setw(20) << setprecision(3) << galutinis << endl;
+        grupe[i].galut_iv=galutinis;
+    }
+    //************************
+    //rikiavimas
+    sorting(grupe);
+    //**********
+    //printrez i faila*************
+    //ofstream fr("rezultatai.txt");
+    
+    cout << "Vardas              Pavarde             "; if (vid_med == 'v') cout <<"Galutinis (Vid.)"<< endl;
+                                            else if (vid_med == 'm') cout <<"Galutinis (Med.)"<< endl;
+    cout << "--------------------------------------------------------" << endl;
+    for (int i = 0; i < grupe.size(); i++) {
+        cout << left << setw(20) << grupe[i].vard << left << setw(20) << grupe[i].pav << left << setw(20) << setprecision(3) << grupe[i].galut_iv << endl;
     }
     cout << "--------------------------------------------------------\n";
     cout << endl;
@@ -168,6 +181,7 @@ void pasirinkimas4(vector<stud>& grupe) {
 
     int expected_size = word_count - 3; // Deducting 2 for name and surname
     // Read data for each student from the file
+    auto start = std::chrono::high_resolution_clock::now();
     while (getline(file, line)) {
         istringstream iss(line);
         stud student;
@@ -187,19 +201,23 @@ void pasirinkimas4(vector<stud>& grupe) {
         }
 
         iss >> student.rez_egz;
+        
         MedianaVidurkis(student);
         grupe.push_back(student);
     }
+    std::chrono::duration<double> diff = std::chrono::high_resolution_clock::now()-start; // Skirtumas (s)
+    ofstream fr("rezultatai.txt");
+    fr <<"Nuskaityti duomenis uztruko: "<< diff.count() << " s\n";
     file.close();
 
     char vid_med;
-    double a = -1;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do{
     cin >> vid_med;
     }while(vid_med!='v'&&vid_med!='m');
 
     //galutinis***************
+    double a = -1;
     for (int i = 0; i < grupe.size(); i++) {
         if (vid_med == 'v') a = grupe[i].vid;
         else if (vid_med == 'm') a = grupe[i].med;
@@ -211,18 +229,18 @@ void pasirinkimas4(vector<stud>& grupe) {
     sorting(grupe);
     //**********
     //printrez i faila*************
-    ofstream fr("rezultatai.txt");
+    
     
     fr << "Vardas              Pavarde             "; if (vid_med == 'v') fr <<"Galutinis (Vid.)"<< endl;
                                             else if (vid_med == 'm') fr <<"Galutinis (Med.)"<< endl;
     fr << "--------------------------------------------------------" << endl;
+    start = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < grupe.size(); i++) {
-        //if (vid_med == 'v') a = grupe[i].vid;
-        //else if (vid_med == 'm') a = grupe[i].med;
-        //double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
         fr << left << setw(20) << grupe[i].vard << left << setw(20) << grupe[i].pav << left << setw(20) << setprecision(3) << grupe[i].galut_iv << endl;
     }
-    fr << "--------------------------------------------------------";
+    diff = std::chrono::high_resolution_clock::now()-start; // Skirtumas (s)
+    fr << "--------------------------------------------------------\n";
+    fr <<"Irasyti duomenis uztruko: "<< diff.count() << " s\n";
     fr.close();
     //**********
 }
@@ -230,38 +248,38 @@ void sorting(vector<stud>& grupe){
     char sorting_choice, sort_order;
     cout << "Rikiuoti pagal (v - vardas, p - pavarde, g - galutinis ivertinimas): ";
     cin >> sorting_choice;
-    cout << "Pasirinkite rikiavimo tvarka (a - didėjimo, d - mažėjimo): ";
+    cout << "Pasirinkite rikiavimo tvarka (d - didejimo, m - mazejimo): ";
     cin >> sort_order;
     
     switch (sorting_choice) {
         case 'v':
-            if (sort_order == 'a') {
+            if (sort_order == 'd') {
                 sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
                     return a.vard < b.vard;
                 });
-            } else if (sort_order == 'd') {
+            } else if (sort_order == 'm') {
                 sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
                     return a.vard > b.vard;
                 });
             }
             break;
         case 'p':
-            if (sort_order == 'a') {
+            if (sort_order == 'd') {
                 sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
                     return a.pav < b.pav;
                 });
-            } else if (sort_order == 'd') {
+            } else if (sort_order == 'm') {
                 sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
                     return a.pav > b.pav;
                 });
             }
             break;
         case 'g':
-            if (sort_order == 'a') {
+            if (sort_order == 'd') {
                 sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
                     return a.galut_iv < b.galut_iv;
                 });
-            } else if (sort_order == 'd') {
+            } else if (sort_order == 'm') {
                 sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
                     return a.galut_iv > b.galut_iv;
                 });
