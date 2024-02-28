@@ -9,28 +9,45 @@ using namespace std;
 const int M = 15; // namu darbu uzduociu kiekis kai generuojama atsitiktinai
 
 void pasirinkimas1(vector<stud>& grupe) {
-    int n;
-    cout << "Kiek studentu yra grupeje? ";
-    cin >> n;
-    grupe.resize(n);
-    for (int i = 0; i < n; ++i) {
-        cout << "studento vardas ir pavarde: ";
-        cin >> grupe[i].vard >> grupe[i].pav;
-        cout << "studento egzamino rezultatas(1-10): ";
-        cin >> grupe[i].rez_egz;
-        cout << "Namu darbu kiekis: ";
-        int m;
-        cin >> m;
-        grupe[i].rez_nd.resize(m);
-        for (int j = 0; j < m; ++j) {
-            cout << j + 1 << "-os uzduoties rezultatas(1-10): ";
-            cin >> grupe[i].rez_nd[j];
+    try {
+        int n;
+        cout << "Kiek studentu yra grupeje? ";
+        cin >> n;
+        if (cin.fail() || n <= 0) {
+            throw runtime_error("Netinkamas studentu skaicius.");
         }
-        MedianaVidurkis(grupe[i]);
+        grupe.resize(n);
+        for (int i = 0; i < n; ++i) {
+            cout << "Studento vardas ir pavarde: ";
+            cin >> grupe[i].vard >> grupe[i].pav;
+            cout << "Studento egzamino rezultatas (1-10): ";
+            cin >> grupe[i].rez_egz;
+            if (cin.fail() || grupe[i].rez_egz < 1 || grupe[i].rez_egz > 10) {
+                throw runtime_error("Netinkamas egzamino rezultatas.");
+            }
+            cout << "Namu darbu kiekis: ";
+            int m;
+            cin >> m;
+            if (cin.fail() || m <= 0) {
+                throw runtime_error("Netinkamas namu darbu kiekis.");
+            }
+            grupe[i].rez_nd.resize(m);
+            for (int j = 0; j < m; ++j) {
+                cout << j + 1 << "-os uzduoties rezultatas (1-10): ";
+                cin >> grupe[i].rez_nd[j];
+                if (cin.fail() || grupe[i].rez_nd[j] < 1 || grupe[i].rez_nd[j] > 10) {
+                    throw runtime_error("Netinkamas namu darbo rezultatas.");
+                }
+            }
+            MedianaVidurkis(grupe[i]);
+        }
+        printrez(grupe);
+    } catch (const exception& e) {
+        cerr << "Klaida: " << e.what() << endl;
+        cin.clear(); // Clear error flags
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
     }
-    printrez(grupe);
 }
-
 void pasirinkimas2(vector<stud>& grupe) {
     int n;
     cout << "Kiek studentu yra grupeje? ";
