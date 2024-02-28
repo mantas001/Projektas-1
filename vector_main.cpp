@@ -20,6 +20,7 @@ struct stud {
     double rez_egz;
     double vid;
     double med;
+    double galut_iv;
 };
 
 void pasirinkimas1(vector<stud>& grupe);
@@ -28,6 +29,7 @@ void pasirinkimas3(vector<stud>& grupe);
 void printrez(const vector<stud>& grupe);
 void MedianaVidurkis(stud& grupe);
 void pasirinkimas4(vector<stud>& grupe);
+void sorting(vector<stud>& grupe);
 
 int main() {
     srand(time(NULL));
@@ -117,16 +119,16 @@ void printrez(const vector<stud>& grupe) {
     do{
     cin >> vid_med;
     }while(vid_med!='v'&&vid_med!='m');
-    cout << "Vardas        Pavarde       "; if (vid_med == 'v') cout <<"Galutinis (Vid.)"<< endl;
+    cout << "Vardas              Pavarde             "; if (vid_med == 'v') cout <<"Galutinis (Vid.)"<< endl;
                                             else if (vid_med == 'm') cout <<"Galutinis (Med.)"<< endl;
-    cout << "--------------------------------------------" << endl;
+    cout << "--------------------------------------------------------" << endl;
     for (int i = 0; i < grupe.size(); i++) {
         if (vid_med == 'v') a = grupe[i].vid;
         else if (vid_med == 'm') a = grupe[i].med;
         double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
         cout << left << setw(20) << grupe[i].vard << left << setw(20) << grupe[i].pav << left << setw(20) << setprecision(3) << galutinis << endl;
     }
-    cout << "--------------------------------------------\n";
+    cout << "--------------------------------------------------------\n";
     cout << endl;
 }
 
@@ -147,6 +149,7 @@ void MedianaVidurkis(stud& grupe) {
 void pasirinkimas4(vector<stud>& grupe) {
     system("dir *.txt");
     string filename;
+    cout << "Irasykite duomenu failo pavadinima: ";
     cin >> filename;
     ifstream file(filename); // Open the file
     if (!file) {
@@ -187,26 +190,85 @@ void pasirinkimas4(vector<stud>& grupe) {
         MedianaVidurkis(student);
         grupe.push_back(student);
     }
-
     file.close();
-    //printrez i faila*************
-    ofstream fr("rezultatai.txt");
+
     char vid_med;
     double a = -1;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do{
     cin >> vid_med;
     }while(vid_med!='v'&&vid_med!='m');
-    fr << "Vardas              Pavarde             "; if (vid_med == 'v') fr <<"Galutinis (Vid.)"<< endl;
-                                            else if (vid_med == 'm') fr <<"Galutinis (Med.)"<< endl;
-    fr << "--------------------------------------------------------" << endl;
+
+    //galutinis***************
     for (int i = 0; i < grupe.size(); i++) {
         if (vid_med == 'v') a = grupe[i].vid;
         else if (vid_med == 'm') a = grupe[i].med;
         double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
-        fr << left << setw(20) << grupe[i].vard << left << setw(20) << grupe[i].pav << left << setw(20) << setprecision(3) << galutinis << endl;
+        grupe[i].galut_iv=galutinis;
     }
-    fr << "--------------------------------------------------------\n";
+    //************************
+    //rikiavimas
+    sorting(grupe);
+    //**********
+    //printrez i faila*************
+    ofstream fr("rezultatai.txt");
+    
+    fr << "Vardas              Pavarde             "; if (vid_med == 'v') fr <<"Galutinis (Vid.)"<< endl;
+                                            else if (vid_med == 'm') fr <<"Galutinis (Med.)"<< endl;
+    fr << "--------------------------------------------------------" << endl;
+    for (int i = 0; i < grupe.size(); i++) {
+        //if (vid_med == 'v') a = grupe[i].vid;
+        //else if (vid_med == 'm') a = grupe[i].med;
+        //double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
+        fr << left << setw(20) << grupe[i].vard << left << setw(20) << grupe[i].pav << left << setw(20) << setprecision(3) << grupe[i].galut_iv << endl;
+    }
+    fr << "--------------------------------------------------------";
     fr.close();
     //**********
+}
+void sorting(vector<stud>& grupe){
+    char sorting_choice, sort_order;
+    cout << "Rikiuoti pagal (v - vardas, p - pavarde, g - galutinis ivertinimas): ";
+    cin >> sorting_choice;
+    cout << "Pasirinkite rikiavimo tvarka (a - didėjimo, d - mažėjimo): ";
+    cin >> sort_order;
+    
+    switch (sorting_choice) {
+        case 'v':
+            if (sort_order == 'a') {
+                sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
+                    return a.vard < b.vard;
+                });
+            } else if (sort_order == 'd') {
+                sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
+                    return a.vard > b.vard;
+                });
+            }
+            break;
+        case 'p':
+            if (sort_order == 'a') {
+                sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
+                    return a.pav < b.pav;
+                });
+            } else if (sort_order == 'd') {
+                sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
+                    return a.pav > b.pav;
+                });
+            }
+            break;
+        case 'g':
+            if (sort_order == 'a') {
+                sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
+                    return a.galut_iv < b.galut_iv;
+                });
+            } else if (sort_order == 'd') {
+                sort(grupe.begin(), grupe.end(), [](const stud& a, const stud& b) {
+                    return a.galut_iv > b.galut_iv;
+                });
+            }
+            break;
+        default:
+            cout << "Neteisingas pasirinkimas!" << endl;
+            return;
+    }
 }
