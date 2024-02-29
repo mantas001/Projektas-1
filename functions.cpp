@@ -77,23 +77,31 @@ void pasirinkimas2(vector<stud>& grupe) {
 }
 
 void pasirinkimas3(vector<stud>& grupe) {
-    int n;
-    cout << "Kiek studentu yra grupeje? ";
-
-    cin >> n;
-    grupe.resize(n);
-    for (int i = 0; i < n; ++i) {
-        grupe[i].vard = "Vardas" + to_string(1 + rand() % 10);
-        grupe[i].pav = "Pavarde" + to_string(1 + rand() % 10);
-        grupe[i].rez_egz = 1 + rand() % 10;;
-        int m = 1 + rand() % M;
-        grupe[i].rez_nd.resize(m);
-        for (int j = 0; j < m; ++j) {
-            grupe[i].rez_nd[j] = 1 + rand() % 10;
+    try{
+        int n;
+        cout << "Kiek studentu yra grupeje? ";
+        cin >> n;
+        if (cin.fail() || n <= 0) {
+            throw runtime_error("Netinkamas studentu skaicius.");
         }
-        MedianaVidurkis(grupe[i]);
+        grupe.resize(n);
+        for (int i = 0; i < n; ++i) {
+            grupe[i].vard = "Vardas" + to_string(1 + rand() % 10);
+            grupe[i].pav = "Pavarde" + to_string(1 + rand() % 10);
+            grupe[i].rez_egz = 1 + rand() % 10;;
+            int m = 1 + rand() % M;
+            grupe[i].rez_nd.resize(m);
+            for (int j = 0; j < m; ++j) {
+                grupe[i].rez_nd[j] = 1 + rand() % 10;
+            }
+            MedianaVidurkis(grupe[i]);
+        }
+        printrez(grupe);
+    } catch (const exception& e) {
+        cerr << "Klaida: " << e.what() << endl;
+        cin.clear(); // Clear error flags
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
     }
-    printrez(grupe);
 }
 
 void printrez(vector<stud>& grupe) {
