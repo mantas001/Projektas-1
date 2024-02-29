@@ -8,7 +8,7 @@
 using namespace std;
 const int M = 15; // namu darbu uzduociu kiekis kai generuojama atsitiktinai
 
-void pasirinkimas1(vector<stud>& grupe) {
+void pasirinkimas1(vector<stud>& grupe) {//done
     try {
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -48,7 +48,7 @@ void pasirinkimas1(vector<stud>& grupe) {
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
     }
 }
-void pasirinkimas2(vector<stud>& grupe) {
+void pasirinkimas2(vector<stud>& grupe) {//done
     try {
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -76,7 +76,7 @@ void pasirinkimas2(vector<stud>& grupe) {
     }
 }
 
-void pasirinkimas3(vector<stud>& grupe) {
+void pasirinkimas3(vector<stud>& grupe) {//done
     try{
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -104,11 +104,12 @@ void pasirinkimas3(vector<stud>& grupe) {
     }
 }
 
-void printrez(vector<stud>& grupe) {
+void printrez(vector<stud>& grupe) {//done
     char vid_med;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do{
     cin >> vid_med;
+    if (vid_med!='v'&&vid_med!='m') cout << "Netinkama ivestis(irasykite 'v' arba 'm'): ";
     }while(vid_med!='v'&&vid_med!='m');
 
     //galutinis***************
@@ -119,12 +120,10 @@ void printrez(vector<stud>& grupe) {
         double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
         grupe[i].galut_iv=galutinis;
     }
-    //************************
     //rikiavimas
     sorting(grupe);
     //**********
-    //printrez i faila*************
-    //ofstream fr("rezultatai.txt");
+
     
     cout << "Vardas              Pavarde             "; if (vid_med == 'v') cout <<"Galutinis (Vid.)"<< endl;
                                             else if (vid_med == 'm') cout <<"Galutinis (Med.)"<< endl;
@@ -155,10 +154,11 @@ void pasirinkimas4(vector<stud>& grupe) {
     string filename;
     cout << "Irasykite duomenu failo pavadinima: ";
     cin >> filename;
+    try {
     ifstream file(filename); // Open the file
     if (!file) {
-        cout << "Nepavyko atidaryti failo." << endl;
-        return;
+        throw runtime_error("Nepavyko atidaryti failo.");
+
     }
 
     string line;
@@ -205,6 +205,7 @@ void pasirinkimas4(vector<stud>& grupe) {
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do{
     cin >> vid_med;
+    if (vid_med!='v'&&vid_med!='m') cout << "Netinkama ivestis(irasykite 'v' arba 'm'): ";
     }while(vid_med!='v'&&vid_med!='m');
 
     //galutinis***************
@@ -234,6 +235,9 @@ void pasirinkimas4(vector<stud>& grupe) {
     fr <<"Irasyti duomenis uztruko: "<< diff.count() << " s\n";
     fr.close();
     //**********
+    } catch (const exception& e) {
+        cerr << "Klaida: " << e.what() << endl;
+    }
 }
 void sorting(vector<stud>& grupe){
     char sorting_choice, sort_order;
