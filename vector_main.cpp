@@ -19,7 +19,10 @@ int main() {
         else if (pasirinkimas=='2') pasirinkimas2(grupe);
         else if (pasirinkimas=='3') pasirinkimas3(grupe);
         else if (pasirinkimas=='4') pasirinkimas4(grupe);
-        else if (pasirinkimas=='5') break;
+        else if (pasirinkimas=='5'){
+            cout <<"Programa darba beige" << endl;
+            break;
+        }
         else cout << "Neteisingas pasirinkimas. Bandykite dar karta.\n";
 
     } while (pasirinkimas != '5');
