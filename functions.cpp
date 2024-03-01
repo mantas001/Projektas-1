@@ -292,3 +292,8 @@ void sorting(vector<stud>& grupe){
             return;
     }
 }
+void duomenugeneravimas(std::vector<stud>& grupe){
+    ofstream fr("rezultatai.txt");
+    int duom;
+    cout << "Kiek eiluciu duomenu generuoti? ";
+}

@@ -20,5 +20,6 @@ void printrez(std::vector<stud>& grupe);
 void MedianaVidurkis(stud& grupe);
 void pasirinkimas4(std::vector<stud>& grupe);
 void sorting(std::vector<stud>& grupe);
+void duomenugeneravimas(std::vector<stud>& grupe);
 
 #endif
