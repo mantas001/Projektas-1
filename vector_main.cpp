@@ -20,7 +20,7 @@ int main() {
         else if (pasirinkimas=="2") pasirinkimas2(grupe);
         else if (pasirinkimas=="3") pasirinkimas3(grupe);
         else if (pasirinkimas=="4") pasirinkimas4(grupe);
-        else if (pasirinkimas=="5") pasirinkimas4(grupe);
+        else if (pasirinkimas=="5") pasirinkimas5(grupe);
         else if (pasirinkimas=="6"){
             cout <<"Programa darba baige" << endl;
             break;

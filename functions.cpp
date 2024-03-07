@@ -292,19 +292,20 @@ void sorting(vector<stud>& grupe){
             return;
     }
 }
-void duomenugeneravimas(std::vector<stud>& grupe){
+void pasirinkimas5(std::vector<stud>& grupe){
 
     int duom;
     cout << "Kiek eiluciu duomenu generuoti? ";
     cin >> duom;
     string filename2="duomenys" + to_string(duom) + ".txt";
     ofstream fr(filename2);
-    cout << "Vardas                   Pavarde                    ND1       ND2       ND3       ND4       ND5       ND6       ND7       ND8       ND9      ND10      ND11      ND12      ND13      ND14      ND15      Egz.";
+    fr << "Vardas              Pavarde             ND1       ND2       ND3       ND4       ND5       ND6       ND7       ND8       ND9       ND10      ND11      ND12      ND13      ND14      ND15      Egz." << endl;
     for (int i=0; i<duom; i++){
-        fr << left << setw(20) << "Vardas" << i << left << setw(20) << "Pavarde" << i;
-        for (int j=0; j<16; j++){
+        fr << left << setw(20) << "Vardas" + to_string(i+1) << left << setw(20) << "Pavarde" + to_string(i+1);
+        for (int j=0; j<15; j++){
             fr << left << setw(10) << 1 + rand() % 10;
         }
-        cout << endl;
+        fr << 1 + rand() % 10;
+        fr << endl;
     }
 }
