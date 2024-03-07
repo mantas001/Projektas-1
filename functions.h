@@ -21,7 +21,7 @@ void printrez(std::vector<stud>& grupe);
 void MedianaVidurkis(stud& grupe);
 void pasirinkimas4(std::vector<stud>& grupe);
 void sorting(std::vector<stud>& grupe);
-void saunuoliai_vargsai(vector<stud>& grupe, vector<stud>& passed, vector<stud>& failed);
+void saunuoliai_vargsai(std::vector<stud>& grupe, std::vector<stud>& saunuoliai, std::vector<stud>& vargsai);
 
 
 #endif

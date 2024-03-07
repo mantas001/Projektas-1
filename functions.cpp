@@ -314,16 +314,99 @@ void pasirinkimas5(std::vector<stud>& grupe){
     //cout <<"Sukurti duomenis uztruko: "<< duom_create_diff.count() << " s\n";
     vector<stud> saunuoliai; // Students with a final grade of 5 or above
     vector<stud> vargsai;
-    saunuoliai_vargsai(grupe, saunuoliai, vargsai);
 
+    ifstream file(filename2); // Open the file
+    string line;
+    int word_count = 0; // Count of words in the first line
+    // Read the first line to count the number of words
+    getline(file, line);
+    istringstream iss_first(line);
+    while (iss_first >> line) {
+        word_count++;
+    }
+
+    int expected_size = word_count - 3; // Deducting 2 for name and surname
+    // Read data for each student from the file
+    auto duom_read_start = std::chrono::high_resolution_clock::now();
+    while (getline(file, line)) {
+        istringstream iss(line);
+        stud student;
+        iss >> student.vard >> student.pav;
+
+        // Resize rez_nd based on the expected size
+        student.rez_nd.resize(expected_size);
+
+        // Read rez_nd values
+        for (int j = 0; j < expected_size; ++j) {
+            if (iss.eof()) {
+                // If there are fewer values than expected, adjust the size
+                student.rez_nd.resize(j);
+                break;
+            }
+            iss >> student.rez_nd[j];
+        }
+
+        iss >> student.rez_egz;
+        
+        MedianaVidurkis(student);
+        grupe.push_back(student);
+    }
+    //********************************************************************************************
+    string vid_med;
+    cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
+    do{
+    cin >> vid_med;
+    if (vid_med!="v"&&vid_med!="m") cout << "Netinkama ivestis(irasykite 'v' arba 'm'): ";
+    }while(vid_med!="v"&&vid_med!="m");
+
+    //galutinis***************
+    double a = -1;
+    for (int i = 0; i < grupe.size(); i++) {
+        if (vid_med == "v") a = grupe[i].vid;
+        else if (vid_med == "m") a = grupe[i].med;
+        double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
+        grupe[i].galut_iv=galutinis;
+    }
+    //************************
+    auto duom_sort_start = std::chrono::high_resolution_clock::now();
+    saunuoliai_vargsai(grupe, saunuoliai, vargsai);
+    std::chrono::duration<double> duom_sort_diff = std::chrono::high_resolution_clock::now()-duom_sort_start;
+
+
+
+    string ofstreamfile="saunuoliai" + to_string(duom) + ".txt";
+    ofstream saunuoliai_file(ofstreamfile);
+    for (const auto& student : saunuoliai) {
+        saunuoliai_file << left << setw(20) << student.vard << setw(20) << student.pav << setw(10) << fixed << setprecision(2) << student.galut_iv << endl;
+    }
+    saunuoliai_file.close();
+
+
+    string ofstreamfile2="vargsai" + to_string(duom) + ".txt";
+    ofstream vargsai_file(ofstreamfile2);
+    for (const auto& student : vargsai) {
+        vargsai_file << left << setw(20) << student.vard << setw(20) << student.pav << setw(10) << fixed << setprecision(2) << student.galut_iv << endl;
+    }
+    vargsai_file.close();
+
+
+
+
+
+    cout <<"Sukurti duomenis uztruko: "<< duom_create_diff.count() << " s\n";
+    //cout <<"Nuskaityti duomenis uztruko: "<< duom_read_diff.count() << " s\n";
+    cout <<"Surikiuoti duomenis uztruko: "<< duom_sort_diff.count() << " s\n";
+    cout <<"Irasyti duomenis uztruko: "<< duom_create_diff.count() << " s\n";
+    cout <<"Visos programos veikimo laikas: "<< duom_create_diff.count() << " s\n";
     cout << endl;
 }
-void saunuoliai_vargsai(vector<stud>& grupe, vector<stud>& passed, vector<stud>& failed) {
+void saunuoliai_vargsai(std::vector<stud>& grupe, std::vector<stud>& saunuoliai, std::vector<stud>& vargsai) {
     for (const auto& student : grupe) {
         if (student.galut_iv >= 5) {
-            passed.push_back(student);
+            saunuoliai.push_back(student);
         } else {
-            failed.push_back(student);
+            vargsai.push_back(student);
         }
     }
 }
+
