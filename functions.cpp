@@ -298,6 +298,7 @@ void pasirinkimas5(std::vector<stud>& grupe){
     cout << "Kiek eiluciu duomenu generuoti? ";
     cin >> duom;
     string filename2="duomenys" + to_string(duom) + ".txt";
+    auto duom_create_start = std::chrono::high_resolution_clock::now();
     ofstream fr(filename2);
     fr << "Vardas              Pavarde             ND1       ND2       ND3       ND4       ND5       ND6       ND7       ND8       ND9       ND10      ND11      ND12      ND13      ND14      ND15      Egz." << endl;
     for (int i=0; i<duom; i++){
@@ -307,5 +308,22 @@ void pasirinkimas5(std::vector<stud>& grupe){
         }
         fr << 1 + rand() % 10;
         fr << endl;
+    }
+    fr.close();
+    std::chrono::duration<double> duom_create_diff = std::chrono::high_resolution_clock::now()-duom_create_start;
+    //cout <<"Sukurti duomenis uztruko: "<< duom_create_diff.count() << " s\n";
+    vector<stud> saunuoliai; // Students with a final grade of 5 or above
+    vector<stud> vargsai;
+    saunuoliai_vargsai(grupe, saunuoliai, vargsai);
+
+    cout << endl;
+}
+void saunuoliai_vargsai(vector<stud>& grupe, vector<stud>& passed, vector<stud>& failed) {
+    for (const auto& student : grupe) {
+        if (student.galut_iv >= 5) {
+            passed.push_back(student);
+        } else {
+            failed.push_back(student);
+        }
     }
 }
