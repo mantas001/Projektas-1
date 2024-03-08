@@ -321,39 +321,40 @@ void pasirinkimas5(std::vector<stud>& grupe){
     int word_count = 0; // Count of words in the first line
     // Read the first line to count the number of words
     auto duom_read_start = std::chrono::high_resolution_clock::now();
-    getline(file, line);
-    istringstream iss_first(line);
-    while (iss_first >> line) {
-        word_count++;
-    }
+getline(file, line);
+istringstream iss_first(line);
+while (iss_first >> line) {
+    word_count++;
+}
 
-    int expected_size = word_count - 3; // Deducting 2 for name and surname
-    // Read data for each student from the file
+int expected_size = word_count - 3; // Deducting 2 for name and surname
 
-    while (getline(file, line)) {
-        istringstream iss(line);
-        stud student;
-        iss >> student.vard >> student.pav;
+while (getline(file, line)) {
+    std::chrono::high_resolution_clock::time_point start_reading = std::chrono::high_resolution_clock::now(); // Record start time for reading
 
-        // Resize rez_nd based on the expected size
-        student.rez_nd.resize(expected_size);
+    istringstream iss(line);
+    stud student;
+    iss >> student.vard >> student.pav;
+    student.rez_nd.resize(expected_size);
 
-        // Read rez_nd values
-        for (int j = 0; j < expected_size; ++j) {
-            if (iss.eof()) {
-                // If there are fewer values than expected, adjust the size
-                student.rez_nd.resize(j);
-                break;
-            }
-            iss >> student.rez_nd[j];
+    for (int j = 0; j < expected_size; ++j) {
+        if (iss.eof()) {
+            student.rez_nd.resize(j);
+            break;
         }
-
-        iss >> student.rez_egz;
-        
-        MedianaVidurkis(student);
-        grupe.push_back(student);
+        iss >> student.rez_nd[j];
     }
-    std::chrono::duration<double> duom_read_diff = std::chrono::high_resolution_clock::now()-duom_read_start;
+
+    iss >> student.rez_egz;
+
+    std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now(); // Record end time for reading
+
+    MedianaVidurkis(student); // Calculate median after reading data
+    grupe.push_back(student);
+}
+
+std::chrono::duration<double> duom_read_diff = std::chrono::high_resolution_clock::now() - duom_read_start;
+
     //********************************************************************************************
     string vid_med="v";
 
@@ -391,13 +392,16 @@ void pasirinkimas5(std::vector<stud>& grupe){
     std::chrono::duration<double> all_diff = std::chrono::high_resolution_clock::now()-all_start;
 
 
-
-
-    cout <<"Sukurti "<<duom<<" irasu uztruko: "<< duom_create_diff.count() << " s\n";
-    cout <<"Nuskaityti "<<duom<<" irasu uztruko: "<< duom_read_diff.count() << " s\n";
-    cout <<"Surikiuoti "<<duom<<" irasu uztruko: "<< duom_sort_diff.count() << " s\n";
-    cout <<"Irasyti "<<duom<<" irasu uztruko: "<< duom_write_diff.count() << " s\n";
-    cout <<"Visos programos veikimo laikas su "<<duom<< " irasu: "<< all_diff.count() << " s\n";
+    grupe.clear();
+    vargsai.clear();
+    saunuoliai.clear();
+    cout <<"***********************************************************"<<endl;
+    cout <<"Sukurti "<< duom <<" irasu uztruko: "<< duom_create_diff.count() << " s\n";
+    cout <<"Nuskaityti "<< duom <<" irasu uztruko: "<< duom_read_diff.count() << " s\n";
+    cout <<"Surikiuoti "<< duom <<" irasu uztruko: "<< duom_sort_diff.count() << " s\n";
+    cout <<"Irasyti "<< duom <<" irasu uztruko: "<< duom_write_diff.count() << " s\n";
+    cout <<"Visos programos veikimo laikas su "<< duom << " irasu: "<< all_diff.count() << " s\n";
+    cout <<"***********************************************************"<<endl; 
     cout << endl;
 }
 void saunuoliai_vargsai(std::vector<stud>& grupe, std::vector<stud>& saunuoliai, std::vector<stud>& vargsai) {
