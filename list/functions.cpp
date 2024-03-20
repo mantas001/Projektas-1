@@ -389,11 +389,11 @@ void pasirinkimas6(std::list<stud>& grupe, std::string& filename2, int& duom, st
     saunuoliai.clear();
 
     cout <<"***********************************************************"<<endl;
-    cout <<"Sukurti "<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
+    //cout <<"Sukurti "<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
     cout <<"Nuskaityti "<< eilutes << " irasu uztruko: "<< duom_read_diff.count() << " s\n";
     cout <<"Surikiuoti "<< eilutes << " irasu uztruko: "<< duom_sort_diff.count() << " s\n";
     cout <<"Irasyti "<< eilutes << " irasu uztruko: "<< duom_write_diff.count() << " s\n";
-    cout <<"Visos programos veikimo laikas su "<< eilutes << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
+    //cout <<"Visos programos veikimo laikas su "<< eilutes << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
     cout <<"***********************************************************"<<endl; 
     cout << endl;
 }

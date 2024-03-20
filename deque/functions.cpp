@@ -292,6 +292,34 @@ void sorting(deque<stud>& grupe){
             return;
     }
 }
+void duomenu_sukurimas(std::deque<stud>& grupe, std::chrono::duration<double>& duom_create_diff, int& duom){
+    //int duom;
+    cout << "Kiek eiluciu duomenu generuoti? ";
+    cin >> duom;
+    string filename2="duomenys" + to_string(duom) + ".txt";
+    auto duom_create_start = std::chrono::high_resolution_clock::now();
+    ofstream fr(filename2);
+    fr << "Vardas              Pavarde             ND1       ND2       ND3       ND4       ND5       ND6       ND7       ND8       ND9       ND10      ND11      ND12      ND13      ND14      ND15      Egz." << endl;
+    for (int i=0; i<duom; i++){
+        fr << left << setw(20) << "Vardas" + to_string(i+1) << left << setw(20) << "Pavarde" + to_string(i+1);
+        for (int j=0; j<15; j++){
+            fr << left << setw(10) << 1 + rand() % 10;
+        }
+        fr << 1 + rand() % 10;
+        fr << endl;
+    }
+    fr.close();
+    duom_create_diff = std::chrono::high_resolution_clock::now()-duom_create_start;
+}
+void saunuoliai_vargsai(std::deque<stud>& grupe, std::deque<stud>& saunuoliai, std::deque<stud>& vargsai) {
+    for (const auto& student : grupe) {
+        if (student.galut_iv >= 5) {
+            saunuoliai.push_back(student);
+        } else {
+            vargsai.push_back(student);
+        }
+    }
+}
 void pasirinkimas6(std::deque<stud>& grupe, std::string& filename2, int& duom, std::chrono::duration<double>& duom_create_diff){
 
     system("dir *.txt");
@@ -395,40 +423,13 @@ void pasirinkimas6(std::deque<stud>& grupe, std::string& filename2, int& duom, s
     saunuoliai.clear();
 
     cout <<"***********************************************************"<<endl;
-    cout <<"Sukurti "<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
+    //cout <<"Sukurti "<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
     cout <<"Nuskaityti "<< eilutes << " irasu uztruko: "<< duom_read_diff.count() << " s\n";
     cout <<"Surikiuoti "<< eilutes << " irasu uztruko: "<< duom_sort_diff.count() << " s\n";
     cout <<"Irasyti "<< eilutes << " irasu uztruko: "<< duom_write_diff.count() << " s\n";
-    cout <<"Visos programos veikimo laikas su "<< eilutes << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
+    //cout <<"Visos programos veikimo laikas su "<< eilutes << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
     cout <<"***********************************************************"<<endl; 
     cout << endl;
 }
-void duomenu_sukurimas(std::deque<stud>& grupe, std::chrono::duration<double>& duom_create_diff, int& duom){
-    //int duom;
-    cout << "Kiek eiluciu duomenu generuoti? ";
-    cin >> duom;
-    string filename2="duomenys" + to_string(duom) + ".txt";
-    auto duom_create_start = std::chrono::high_resolution_clock::now();
-    ofstream fr(filename2);
-    fr << "Vardas              Pavarde             ND1       ND2       ND3       ND4       ND5       ND6       ND7       ND8       ND9       ND10      ND11      ND12      ND13      ND14      ND15      Egz." << endl;
-    for (int i=0; i<duom; i++){
-        fr << left << setw(20) << "Vardas" + to_string(i+1) << left << setw(20) << "Pavarde" + to_string(i+1);
-        for (int j=0; j<15; j++){
-            fr << left << setw(10) << 1 + rand() % 10;
-        }
-        fr << 1 + rand() % 10;
-        fr << endl;
-    }
-    fr.close();
-    duom_create_diff = std::chrono::high_resolution_clock::now()-duom_create_start;
-}
-void saunuoliai_vargsai(std::deque<stud>& grupe, std::deque<stud>& saunuoliai, std::deque<stud>& vargsai) {
-    for (const auto& student : grupe) {
-        if (student.galut_iv >= 5) {
-            saunuoliai.push_back(student);
-        } else {
-            vargsai.push_back(student);
-        }
-    }
-}
+
 
