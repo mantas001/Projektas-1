@@ -316,7 +316,7 @@ void pasirinkimas6(std::vector<stud>& grupe, std::string& filename2, int& duom, 
     }
 
     int expected_size = word_count - 3;
-
+    int eilutes=0;
     while (getline(file, line)) {
         std::chrono::high_resolution_clock::time_point start_reading = std::chrono::high_resolution_clock::now(); // Record start time for reading
 
@@ -325,15 +325,19 @@ void pasirinkimas6(std::vector<stud>& grupe, std::string& filename2, int& duom, 
         iss >> student.vard >> student.pav;
         student.rez_nd.resize(expected_size);
 
+
         for (int j = 0; j < expected_size; ++j) {
             if (iss.eof()) {
                 student.rez_nd.resize(j);
                 break;
+
+
             }
             iss >> student.rez_nd[j];
         }
 
         iss >> student.rez_egz;
+        eilutes++;
 
         std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now(); // Record end time for reading
 
@@ -369,7 +373,7 @@ void pasirinkimas6(std::vector<stud>& grupe, std::string& filename2, int& duom, 
     cout << "Rusiuojami vargsai"<< endl;
     sorting(vargsai);
 
-    string ofstreamfile="saunuoliai" + to_string(duom) + ".txt";
+    string ofstreamfile="saunuoliai" + to_string(eilutes) + ".txt";
     ofstream saunuoliai_file(ofstreamfile);
     auto duom_write_start = std::chrono::high_resolution_clock::now();
     for (const auto& student : saunuoliai) {
@@ -378,7 +382,7 @@ void pasirinkimas6(std::vector<stud>& grupe, std::string& filename2, int& duom, 
     saunuoliai_file.close();
 
 
-    string ofstreamfile2="vargsai" + to_string(duom) + ".txt";
+    string ofstreamfile2="vargsai" + to_string(eilutes) + ".txt";
     ofstream vargsai_file(ofstreamfile2);
     for (const auto& student : vargsai) {
         vargsai_file << left << setw(20) << student.vard << setw(20) << student.pav << setw(10) << fixed << setprecision(2) << student.galut_iv << endl;
@@ -391,11 +395,11 @@ void pasirinkimas6(std::vector<stud>& grupe, std::string& filename2, int& duom, 
     saunuoliai.clear();
 
     cout <<"***********************************************************"<<endl;
-    cout <<"Sukurti "<< duom <<" irasu uztruko: "<< duom_create_diff.count() << " s\n";
-    cout <<"Nuskaityti "<< duom <<" irasu uztruko: "<< duom_read_diff.count() << " s\n";
-    cout <<"Surikiuoti "<< duom <<" irasu uztruko: "<< duom_sort_diff.count() << " s\n";
-    cout <<"Irasyti "<< duom <<" irasu uztruko: "<< duom_write_diff.count() << " s\n";
-    cout <<"Visos programos veikimo laikas su "<< duom << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
+    cout <<"Sukurti"<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
+    cout <<"Nuskaityti "<< eilutes << " irasu uztruko: "<< duom_read_diff.count() << " s\n";
+    cout <<"Surikiuoti "<< eilutes << " irasu uztruko: "<< duom_sort_diff.count() << " s\n";
+    cout <<"Irasyti "<< eilutes << " irasu uztruko: "<< duom_write_diff.count() << " s\n";
+    cout <<"Visos programos veikimo laikas su "<< eilutes << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
     cout <<"***********************************************************"<<endl; 
     cout << endl;
 }
