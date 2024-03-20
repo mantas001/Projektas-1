@@ -48,6 +48,7 @@ void pasirinkimas1(vector<stud>& grupe) {//done
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
     }
 }
+
 void pasirinkimas2(vector<stud>& grupe) {//done
     try {
         int n;
@@ -395,7 +396,7 @@ void pasirinkimas6(std::vector<stud>& grupe, std::string& filename2, int& duom, 
     saunuoliai.clear();
 
     cout <<"***********************************************************"<<endl;
-    cout <<"Sukurti"<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
+    cout <<"Sukurti "<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
     cout <<"Nuskaityti "<< eilutes << " irasu uztruko: "<< duom_read_diff.count() << " s\n";
     cout <<"Surikiuoti "<< eilutes << " irasu uztruko: "<< duom_sort_diff.count() << " s\n";
     cout <<"Irasyti "<< eilutes << " irasu uztruko: "<< duom_write_diff.count() << " s\n";
