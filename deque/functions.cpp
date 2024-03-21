@@ -320,57 +320,69 @@ void saunuoliai_vargsai(std::deque<stud>& grupe, std::deque<stud>& saunuoliai, s
         }
     }
 }
-void pasirinkimas6(std::deque<stud>& grupe, std::string& filename2, int& duom, std::chrono::duration<double>& duom_create_diff){
-
+void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::chrono::duration<double>& duom_create_diff) {
     system("dir *.txt");
     string filename;
     cout << "Irasykite duomenu failo pavadinima: ";
     cin >> filename;
-    
-    //ifstream file(filename); // Open the file
-    
+
     deque<stud> saunuoliai; // Students with a final grade of 5 or above
     deque<stud> vargsai;
 
-    ifstream file(filename); // Open the file
-    string line;
-    int word_count = 0; // Count of words in the first line
-    // Read the first line to count the number of words
-    auto duom_read_start = std::chrono::high_resolution_clock::now();
-    getline(file, line);
-    istringstream iss_first(line);
-    while (iss_first >> line) {
-        word_count++;
+    stringstream my_buffer;
+    ifstream file(filename);
+    if (!file) {
+        cerr << "Error: Could not open the file.\n";
+        return;
     }
 
-    int expected_size = word_count - 3;
-    int eilutes=0;
-    while (getline(file, line)) {
-        std::chrono::high_resolution_clock::time_point start_reading = std::chrono::high_resolution_clock::now(); // Record start time for reading
+    // Read the file into a buffer
+    my_buffer << file.rdbuf();
+    file.close();
 
+    deque<string> splited;
+    string line;
+
+    while (getline(my_buffer, line)) {
+        splited.push_back(line);
+    }
+
+    int eilutes = 0;
+    int word_count = 0; // Count of words in the first line/////////////////////////////////////////////////////////
+    auto duom_read_start = std::chrono::high_resolution_clock::now();
+    for (const string& line : splited) {
         istringstream iss(line);
         stud student;
-        iss >> student.vard >> student.pav;
-        student.rez_nd.resize(expected_size);
 
-
-        for (int j = 0; j < expected_size; ++j) {
-            if (iss.eof()) {
-                student.rez_nd.resize(j);
-                break;
-
-
-            }
-            iss >> student.rez_nd[j];
+        // Read student's name and surname
+        if (!(iss >> student.vard >> student.pav)) {
+            cerr << "Error reading student's name and surname.\n";
+            continue; // Skip this line and proceed with the next
         }
 
-        iss >> student.rez_egz;
-        eilutes++;
+        // Read grades into the deque
+        int grade;
+        while (iss >> grade) {
+            student.rez_nd.push_back(grade);
+        }
+
+        // Handle error if unable to read the final grade
+        if (student.rez_nd.empty()) {
+            cerr << "";
+            continue; // Skip this line and proceed with the next
+        }
+
+        student.rez_egz = student.rez_nd.back(); // Last grade is the final grade
 
         std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now(); // Record end time for reading
 
-        MedianaVidurkis(student); // Calculate median after reading data
-        grupe.push_back(student);
+        eilutes++; // Increment line counter
+
+        // Calculate median after reading data
+        MedianaVidurkis(student);
+
+        // Move the student object into the deque
+        grupe.push_back(std::move(student));
     }
 
     std::chrono::duration<double> duom_read_diff = std::chrono::high_resolution_clock::now() - duom_read_start;
@@ -378,10 +390,10 @@ void pasirinkimas6(std::deque<stud>& grupe, std::string& filename2, int& duom, s
     //********************************************************************************************
     string vid_med;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
-    do{
-    cin >> vid_med;
-    if (vid_med!="v"&&vid_med!="m") cout << "Netinkama ivestis(irasykite 'v' arba 'm'): ";
-    }while(vid_med!="v"&&vid_med!="m");
+    do {
+        cin >> vid_med;
+        if (vid_med != "v" && vid_med != "m") cout << "Netinkama ivestis(irasykite 'v' arba 'm'): ";
+    } while (vid_med != "v" && vid_med != "m");
 
     //galutinis***************
     double a = -1;
@@ -389,19 +401,19 @@ void pasirinkimas6(std::deque<stud>& grupe, std::string& filename2, int& duom, s
         if (vid_med == "v") a = grupe[i].vid;
         else if (vid_med == "m") a = grupe[i].med;
         double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
-        grupe[i].galut_iv=galutinis;
+        grupe[i].galut_iv = galutinis;
     }
     //************************
     auto duom_sort_start = std::chrono::high_resolution_clock::now();
     saunuoliai_vargsai(grupe, saunuoliai, vargsai);
-    std::chrono::duration<double> duom_sort_diff = std::chrono::high_resolution_clock::now()-duom_sort_start;
+    std::chrono::duration<double> duom_sort_diff = std::chrono::high_resolution_clock::now() - duom_sort_start;
 
-    cout << "Rusiuojami saunuoliai"<< endl;
+    cout << "Rusiuojami saunuoliai" << endl;
     sorting(saunuoliai);
-    cout << "Rusiuojami vargsai"<< endl;
+    cout << "Rusiuojami vargsai" << endl;
     sorting(vargsai);
 
-    string ofstreamfile="saunuoliai" + to_string(eilutes) + ".txt";
+    string ofstreamfile = "saunuoliai" + to_string(eilutes) + ".txt";
     ofstream saunuoliai_file(ofstreamfile);
     auto duom_write_start = std::chrono::high_resolution_clock::now();
     for (const auto& student : saunuoliai) {
@@ -409,26 +421,24 @@ void pasirinkimas6(std::deque<stud>& grupe, std::string& filename2, int& duom, s
     }
     saunuoliai_file.close();
 
-
-    string ofstreamfile2="vargsai" + to_string(eilutes) + ".txt";
+    string ofstreamfile2 = "vargsai" + to_string(eilutes) + ".txt";
     ofstream vargsai_file(ofstreamfile2);
     for (const auto& student : vargsai) {
         vargsai_file << left << setw(20) << student.vard << setw(20) << student.pav << setw(10) << fixed << setprecision(2) << student.galut_iv << endl;
     }
     vargsai_file.close();
-    std::chrono::duration<double> duom_write_diff = std::chrono::high_resolution_clock::now()-duom_write_start;
+
+    std::chrono::duration<double> duom_write_diff = std::chrono::high_resolution_clock::now() - duom_write_start;
 
     grupe.clear();
     vargsai.clear();
     saunuoliai.clear();
 
-    cout <<"***********************************************************"<<endl;
-    //cout <<"Sukurti "<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
-    cout <<"Nuskaityti "<< eilutes << " irasu uztruko: "<< duom_read_diff.count() << " s\n";
-    cout <<"Surikiuoti "<< eilutes << " irasu uztruko: "<< duom_sort_diff.count() << " s\n";
-    cout <<"Irasyti "<< eilutes << " irasu uztruko: "<< duom_write_diff.count() << " s\n";
-    //cout <<"Visos programos veikimo laikas su "<< eilutes << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
-    cout <<"***********************************************************"<<endl; 
+    cout << "***********************************************************" << endl;
+    cout << "Nuskaityti " << eilutes << " irasu uztruko: " << duom_read_diff.count() << " s\n";
+    cout << "Surikiuoti " << eilutes << " irasu uztruko: " << duom_sort_diff.count() << " s\n";
+    cout << "Irasyti " << eilutes << " irasu uztruko: " << duom_write_diff.count() << " s\n";
+    cout << "***********************************************************" << endl;
     cout << endl;
 }
 
