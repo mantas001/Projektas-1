@@ -434,13 +434,13 @@ void duomenu_sukurimas(std::vector<stud>& grupe, std::chrono::duration<double>& 
     duom_create_diff = std::chrono::high_resolution_clock::now()-duom_create_start;
 }
 void saunuoliai_vargsai(std::vector<stud>& grupe, std::vector<stud>& vargsai) {
-    // Use std::remove_if to partition the grupe vector based on below_5 condition
-    auto partition_point = std::remove_if(grupe.begin(), grupe.end(), below_5);
+    // Partition the grupe vector based on below_5 condition
+    auto partition_point = std::partition(grupe.begin(), grupe.end(), below_5);
 
-    // Move removed elements to vargsai
+    // Move the partitioned elements to vargsai
     std::move(partition_point, grupe.end(), std::back_inserter(vargsai));
 
-    // Erase the removed elements from grupe
+    // Erase the partitioned elements from grupe
     grupe.erase(partition_point, grupe.end());
 }
 bool below_5(const stud& student) {

@@ -401,14 +401,14 @@ void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::c
     std::chrono::duration<double> duom_sort_diff = std::chrono::high_resolution_clock::now() - duom_sort_start;
 
     cout << "Rusiuojami saunuoliai" << endl;
-    sorting(saunuoliai);
+    sorting(grupe);
     cout << "Rusiuojami vargsai" << endl;
     sorting(vargsai);
 
     string ofstreamfile = "saunuoliai" + to_string(eilutes) + ".txt";
     ofstream saunuoliai_file(ofstreamfile);
     auto duom_write_start = std::chrono::high_resolution_clock::now();
-    for (const auto& student : saunuoliai) {
+    for (const auto& student : grupe) {
         saunuoliai_file << left << setw(20) << student.vard << setw(20) << student.pav << setw(10) << fixed << setprecision(2) << student.galut_iv << endl;
     }
     saunuoliai_file.close();
@@ -434,13 +434,13 @@ void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::c
     cout << endl;
 }
 void saunuoliai_vargsai(std::deque<stud>& grupe, std::deque<stud>& vargsai) {
-    // Use std::remove_if to partition the grupe vector based on below_5 condition
-    auto partition_point = std::remove_if(grupe.begin(), grupe.end(), below_5);
+    // Partition the grupe vector based on below_5 condition
+    auto partition_point = std::partition(grupe.begin(), grupe.end(), below_5);
 
-    // Move removed elements to vargsai
+    // Move the partitioned elements to vargsai
     std::move(partition_point, grupe.end(), std::back_inserter(vargsai));
 
-    // Erase the removed elements from grupe
+    // Erase the partitioned elements from grupe
     grupe.erase(partition_point, grupe.end());
 }
 bool below_5(const stud& student) {

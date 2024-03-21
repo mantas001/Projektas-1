@@ -22,7 +22,7 @@ void printrez(std::list<stud>& grupe);
 void MedianaVidurkis(stud& grupe);
 void pasirinkimas4(std::list<stud>& grupe);
 void sorting(std::list<stud>& grupe);
-void saunuoliai_vargsai(std::list<stud>& grupe, std::list<stud>& saunuoliai, std::list<stud>& vargsai);
+void saunuoliai_vargsai(std::list<stud>& grupe, std::list<stud>& vargsai);
 void duomenu_sukurimas(std::list<stud>& grupe, std::chrono::duration<double>& duom_create_diff, int& duom);
-
+bool below_5(const stud& student);
 #endif

@@ -248,17 +248,6 @@ void sorting(std::list<stud>& grupe) {
             return;
     }
 }
-
-void saunuoliai_vargsai(list<stud>& grupe, list<stud>& saunuoliai, list<stud>& vargsai) {
-    for (const auto& student : grupe) {
-        if (student.galut_iv >= 5) {
-            saunuoliai.push_back(student);
-        } else {
-            vargsai.push_back(student);
-        }
-    }
-}
-
 void duomenu_sukurimas(list<stud>& grupe, chrono::duration<double>& duom_create_diff, int& duom) {
     try {
         auto start = chrono::steady_clock::now();
@@ -372,18 +361,18 @@ void pasirinkimas6(std::list<stud>& grupe, std::string& filename2, int& duom, st
 
     //************************
     auto duom_sort_start = std::chrono::high_resolution_clock::now();
-    saunuoliai_vargsai(grupe, saunuoliai, vargsai);
+    saunuoliai_vargsai(grupe, vargsai);
     std::chrono::duration<double> duom_sort_diff = std::chrono::high_resolution_clock::now()-duom_sort_start;
 
     cout << "Rusiuojami saunuoliai"<< endl;
-    sorting(saunuoliai);
+    sorting(grupe);
     cout << "Rusiuojami vargsai"<< endl;
     sorting(vargsai);
 
     string ofstreamfile="saunuoliai" + to_string(eilutes) + ".txt";
     ofstream saunuoliai_file(ofstreamfile);
     auto duom_write_start = std::chrono::high_resolution_clock::now();
-    for (const auto& student : saunuoliai) {
+    for (const auto& student : grupe) {
         saunuoliai_file << left << setw(20) << student.vard << setw(20) << student.pav << setw(10) << fixed << setprecision(2) << student.galut_iv << endl;
     }
     saunuoliai_file.close();
@@ -409,4 +398,17 @@ void pasirinkimas6(std::list<stud>& grupe, std::string& filename2, int& duom, st
     //cout <<"Visos programos veikimo laikas su "<< eilutes << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
     cout <<"***********************************************************"<<endl; 
     cout << endl;
+}
+void saunuoliai_vargsai(std::list<stud>& grupe, std::list<stud>& vargsai) {
+    // Partition the grupe vector based on below_5 condition
+    auto partition_point = std::partition(grupe.begin(), grupe.end(), below_5);
+
+    // Move the partitioned elements to vargsai
+    std::move(partition_point, grupe.end(), std::back_inserter(vargsai));
+
+    // Erase the partitioned elements from grupe
+    grupe.erase(partition_point, grupe.end());
+}
+bool below_5(const stud& student) {
+    return student.galut_iv < 5;
 }
