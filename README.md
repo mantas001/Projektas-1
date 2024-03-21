@@ -2,8 +2,8 @@ Testavimo sistemos parametrai:
 RAM: 16GB, 3200 MHz
 CPU: Processor	12th Gen Intel(R) Core(TM) i7-12650H, 2300 Mhz, 10 Core(s), 16 Logical Processor(s)
 SSD: 
-
-
+****************************************************************
+Naudojant vector ir deque tipo konteinerius nuskaitymo, rikiavimo ir irasymo laikai beveik sutampa, o list tipo konteinerio laikai, palyginus su vector ir deque, gerokai isauga.
 
 ****************************************************************
 vector konteineriai:
