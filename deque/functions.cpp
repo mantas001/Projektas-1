@@ -311,15 +311,7 @@ void duomenu_sukurimas(std::deque<stud>& grupe, std::chrono::duration<double>& d
     fr.close();
     duom_create_diff = std::chrono::high_resolution_clock::now()-duom_create_start;
 }
-void saunuoliai_vargsai(std::deque<stud>& grupe, std::deque<stud>& saunuoliai, std::deque<stud>& vargsai) {
-    for (const auto& student : grupe) {
-        if (student.galut_iv >= 5) {
-            saunuoliai.push_back(student);
-        } else {
-            vargsai.push_back(student);
-        }
-    }
-}
+
 void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::chrono::duration<double>& duom_create_diff) {
     system("dir *.txt");
     string filename;
@@ -405,7 +397,7 @@ void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::c
     }
     //************************
     auto duom_sort_start = std::chrono::high_resolution_clock::now();
-    saunuoliai_vargsai(grupe, saunuoliai, vargsai);
+    saunuoliai_vargsai(grupe, vargsai);
     std::chrono::duration<double> duom_sort_diff = std::chrono::high_resolution_clock::now() - duom_sort_start;
 
     cout << "Rusiuojami saunuoliai" << endl;
@@ -441,5 +433,17 @@ void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::c
     cout << "***********************************************************" << endl;
     cout << endl;
 }
+void saunuoliai_vargsai(std::deque<stud>& grupe, std::deque<stud>& vargsai) {
+    // Use std::remove_if to partition the grupe vector based on below_5 condition
+    auto partition_point = std::remove_if(grupe.begin(), grupe.end(), below_5);
 
+    // Move removed elements to vargsai
+    std::move(partition_point, grupe.end(), std::back_inserter(vargsai));
+
+    // Erase the removed elements from grupe
+    grupe.erase(partition_point, grupe.end());
+}
+bool below_5(const stud& student) {
+    return student.galut_iv < 5;
+}
 

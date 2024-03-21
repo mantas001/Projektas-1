@@ -22,8 +22,8 @@ void printrez(std::deque<stud>& grupe);
 void MedianaVidurkis(stud& grupe);
 void pasirinkimas4(std::deque<stud>& grupe);
 void sorting(std::deque<stud>& grupe);
-void saunuoliai_vargsai(std::deque<stud>& grupe, std::deque<stud>& saunuoliai, std::deque<stud>& vargsai);
+void saunuoliai_vargsai(std::deque<stud>& grupe, std::deque<stud>& vargsai);
 void duomenu_sukurimas(std::deque<stud>& grupe, std::chrono::duration<double>& duom_create_diff, int& duom);
-
+bool below_5(const stud& student);
 
 #endif

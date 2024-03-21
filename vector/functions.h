@@ -22,8 +22,8 @@ void printrez(std::vector<stud>& grupe);
 void MedianaVidurkis(stud& grupe);
 void pasirinkimas4(std::vector<stud>& grupe);
 void sorting(std::vector<stud>& grupe);
-void saunuoliai_vargsai(std::vector<stud>& grupe, std::vector<stud>& saunuoliai, std::vector<stud>& vargsai);
+void saunuoliai_vargsai(std::vector<stud>& grupe, std::vector<stud>& vargsai);
 void duomenu_sukurimas(std::vector<stud>& grupe, std::chrono::duration<double>& duom_create_diff, int& duom);
-
+bool below_5(const stud& student);
 
 #endif
