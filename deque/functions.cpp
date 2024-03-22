@@ -155,23 +155,23 @@ void pasirinkimas4(deque<stud>& grupe) {
     cout << "Irasykite duomenu failo pavadinima: ";
     cin >> filename;
     try {
-    ifstream file(filename); // Open the file
+    ifstream file(filename);
     if (!file) {
         throw runtime_error("Nepavyko atidaryti failo.");
 
     }
 
     string line;
-    int word_count = 0; // Count of words in the first line
-    // Read the first line to count the number of words
+    int word_count = 0;
+
     getline(file, line);
     istringstream iss_first(line);
     while (iss_first >> line) {
         word_count++;
     }
 
-    int expected_size = word_count - 3; // Deducting 2 for name and surname
-    // Read data for each student from the file
+    int expected_size = word_count - 3;
+
     auto start = std::chrono::high_resolution_clock::now();
     while (getline(file, line)) {
         istringstream iss(line);
