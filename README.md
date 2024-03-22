@@ -1,13 +1,17 @@
 Diegimo ir naudojimo instrukcija:
 
+Diegimas:
+Atsidarome projekto Github repozitorija, paspaudžiame ant mygtuko "Code" ir nukopijuojame repozitorijos nuorodą. Atsidarome komandinę eilutę, pasirenkame, kur norime atsisiųsti programą ir klonuojame repozitoriją įklijuodami "git clone https://github.com/mantas001/Projektas-1.git" į komandinę eilutę. Nusigauname vietą kurioje išsaugojome programą įrašydami cd "programos_vieta". (Jei įrenginyje nėra su'setup'intas Makefile, daugiafailės programos kompiliavimui, sekite šią nuorodą -> https://github.com/mantas001/Projektas-1/tree/v1.0 ). Tuomet į komandinę eilutę irašome "make"(tai sukompiliuoja programą) ir "main" - programa paleista.
 
 
-
-
-
-
-
-
+Naudojimas:
+Parinktis "1" apskaičiuoja studento vidurkį su naudotojo įvestais duomenimis. Visais atvejais studentai r86iuojami pagal pasirinktą kriterijų: vardą, pavardę, galutinį įvertinimą didėjimo arba mažėjimo tvarka.
+Parinktis "2" generuoja studento pazymius, bet reikalauja įvesti studento vardą ir pavardą.
+Parinktis "3" generuoja visus studento duomenis
+Parinktis "4" nuskaito duomenis iš failo kuriuos turime.
+Parinktis "5" generuoja naujus duomenis.
+Parinktis "6" suskirsto studentus į "vargšus" ir "šaunuolius" priklausomai ar jų vidurkis <5 ar >=5. 
+Parinktis "7" baigia programos darbą.
 
 
 ****************************************************************
@@ -16,20 +20,17 @@ RAM: 16GB, 3200 MHz
 CPU: Processor	12th Gen Intel(R) Core(TM) i7-12650H, 2300 Mhz, 10 Core(s), 16 Logical Processor(s)
 SSD: 
 ****************************************************************
-
+V1.0 pradinė:
 Konteinerių pakeitimas:
 Naudojant vector ir deque tipo konteinerius nuskaitymo, rikiavimo ir įrašymo laikai beveik sutampa (naudojant deque tipo konteinerį programa dirba šiek tiek sparčiau, bet labai minimaliai), o list tipo konteinerio laikai, palyginus su vector ir deque, gerokai išauga - skirtumas akivaizdus. Šiuo atveju list tipo konteinerio naudoti neverta.
+
 
 2 strategija:
 Iš pagrindinio visų studentų konteinerio, "vargšams" atskirti buvo pasirinktas std::partition algoritmas ir pritaikytas programoms su vector, deque ir list konteineriais. Visiems konteinerių tipams sukuriant tik vieną naują konteinerį, vietoje dviejų, programos paspartėja.
 
 
-
-
-
 3 strategija:
 Pratestavus kitus rikiavimo algoritmus (pvz.: "std::remove_copy_if" ir "std::stable_partition"), antroje strategijoje pasirinktas "std::partition" algoritmas "šaunuoliams" ir "vargšams" atskirti  yra efektyviausias iš pateiktų, todėl nereikia jo pakeisti kitu.  
-
 
 
 ****************************************************************
