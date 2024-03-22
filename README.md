@@ -14,6 +14,7 @@ Parinktis "6" suskirsto studentus į "vargšus" ir "šaunuolius" priklausomai ar
 Parinktis "7" baigia programos darbą.
 
 
+
 ****************************************************************
 Testavimo sistemos parametrai:
 RAM: 16GB, 3200 MHz

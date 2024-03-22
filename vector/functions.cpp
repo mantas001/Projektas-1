@@ -125,7 +125,6 @@ void printrez(vector<stud>& grupe) {//done
     sorting(grupe);
     //**********
 
-    
     cout << "Vardas              Pavarde             "; if (vid_med == "v") cout <<"Galutinis (Vid.)"<< endl;
                                             else if (vid_med == "m") cout <<"Galutinis (Med.)"<< endl;
     cout << "--------------------------------------------------------" << endl;
@@ -218,12 +217,12 @@ void pasirinkimas4(vector<stud>& grupe) {
         grupe[i].galut_iv=galutinis;
     }
     //************************
+
     //rikiavimas
     sorting(grupe);
     //**********
+
     //printrez i faila*************
-    
-    
     fr << "Vardas              Pavarde             "; if (vid_med == "v") fr <<"Galutinis (Vid.)"<< endl;
                                             else if (vid_med == "m") fr <<"Galutinis (Med.)"<< endl;
     fr << "--------------------------------------------------------" << endl;
@@ -321,46 +320,39 @@ void pasirinkimas6(std::vector<stud>& grupe, string& filename2, int& duom, std::
     }
 
     int eilutes = 0;
-    int word_count = 0; // Count of words in the first line/////////////////////////////////////////////////////////
     auto duom_read_start = std::chrono::high_resolution_clock::now();
     for (const string& line : splited) {
         istringstream iss(line);
         stud student;
 
-        // Read student's name and surname
         if (!(iss >> student.vard >> student.pav)) {
             cerr << "Error reading student's name and surname.\n";
-            continue; // Skip this line and proceed with the next
+            continue;
         }
 
-        // Read grades into the vector
         int grade;
         while (iss >> grade) {
             student.rez_nd.push_back(grade);
         }
 
-        // Handle error if unable to read the final grade
         if (student.rez_nd.empty()) {
             cerr << "";
-            continue; // Skip this line and proceed with the next
+            continue;
         }
 
-        student.rez_egz = student.rez_nd.back(); // Last grade is the final grade
+        student.rez_egz = student.rez_nd.back();
 
-        std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now(); // Record end time for reading
+        std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now();
 
-        eilutes++; // Increment line counter
+        eilutes++;
 
-        // Calculate median after reading data
         MedianaVidurkis(student);
 
-        // Move the student object into the vector
         grupe.push_back(std::move(student));
     }
 
     std::chrono::duration<double> duom_read_diff = std::chrono::high_resolution_clock::now() - duom_read_start;
 
-    //********************************************************************************************
     string vid_med;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do {
