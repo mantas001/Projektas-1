@@ -17,16 +17,22 @@ CPU: Processor	12th Gen Intel(R) Core(TM) i7-12650H, 2300 Mhz, 10 Core(s), 16 Lo
 SSD: 
 ****************************************************************
 
-Kontenerių pakeitimas:
-Naudojant vector ir deque tipo konteinerius nuskaitymo, rikiavimo ir įraŠymo laikai beveik sutampa (skiriasi labai minimaliai), o list tipo konteinerio laikai, palyginus su vector ir deque, gerokai išauga - skirtumas akivaizdus.
+Konteinerių pakeitimas:
+Naudojant vector ir deque tipo konteinerius nuskaitymo, rikiavimo ir įrašymo laikai beveik sutampa (naudojant deque tipo konteinerį programa dirba šiek tiek sparčiau, bet labai minimaliai), o list tipo konteinerio laikai, palyginus su vector ir deque, gerokai išauga - skirtumas akivaizdus. Šiuo atveju list tipo konteinerio naudoti neverta.
 
 2 strategija:
-Iš pagrindinio visų studentų konteinerio, "vargšams" atskirti buvo pasirinktas std::partition algoritmas ir pritaikytas programoms su vector, deque ir list konteineriais.
+Iš pagrindinio visų studentų konteinerio, "vargšams" atskirti buvo pasirinktas std::partition algoritmas ir pritaikytas programoms su vector, deque ir list konteineriais. Visiems konteinerių tipams sukuriant tik vieną naują konteinerį, vietoje dviejų, programos paspartėja.
+
+
+
+
 
 3 strategija:
-Pakeitus studentų 
+Pratestavus kitus rikiavimo algoritmus (pvz.: "std::remove_copy_if" ir "std::stable_partition"), antroje strategijoje pasirinktas "std::partition" algoritmas "šaunuoliams" ir "vargšams" atskirti  yra efektyviausias iš pateiktų, todėl nereikia jo pakeisti kitu.  
 
 
+
+****************************************************************
 ****************************************************************
 Vector konteineriai: 1 strategija:
 
@@ -50,6 +56,7 @@ Irasyti    1 000 000 irasu uztruko: 6.82153 s.
 terminate called after throwing an instance of 'std::bad_alloc' 
 what(): std::bad_alloc
 (blogas duomenų nuskaitymo būdas)
+
 
 2 strategija:
 
@@ -91,6 +98,7 @@ Irasyti    1 000 000 irasu uztruko: 6.70069 s.
 terminate called after throwing an instance of 'std::bad_alloc' 
 what(): std::bad_alloc
 
+
 2 strategija:
 
 Nuskaityti 1 000 irasu uztruko: 0.010045 s.
@@ -99,7 +107,7 @@ Irasyti    1 000 irasu uztruko: 0.027498 s.
 
 Nuskaityti 10 000 irasu uztruko: 0.100159 s.
 Surikiuoti 10 000 irasu uztruko: 0.005029 s.
-Irasyti    100 00 irasu uztruko: 0.081226 s.
+Irasyti    10 000 irasu uztruko: 0.081226 s.
 
 Nuskaityti 100 000 irasu uztruko: 1.01263 s.
 Surikiuoti 100 000 irasu uztruko: 0.054307 s.
@@ -130,6 +138,7 @@ Irasyti    1 000 000 irasu uztruko: 7.05502 s.
 10 mil. eil.:
 terminate called after throwing an instance of 'std::bad_alloc' 
 what(): std::bad_alloc
+
 
 2 strategija:
 
