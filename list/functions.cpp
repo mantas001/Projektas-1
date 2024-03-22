@@ -5,8 +5,8 @@
 #include <chrono>
 #include <sstream>
 #include <algorithm>
-#include <cstdlib> // Include for rand()
-#include <ctime> // Include for srand()
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -78,8 +78,8 @@ void pasirinkimas2(list<stud>& grupe) {
         printrez(grupe);
     } catch (const exception& e) {
         cerr << "Klaida: " << e.what() << endl;
-        cin.clear(); // Clear error flags
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
@@ -106,8 +106,8 @@ void pasirinkimas3(list<stud>& grupe) {
         printrez(grupe);
     } catch (const exception& e) {
         cerr << "Klaida: " << e.what() << endl;
-        cin.clear(); // Clear error flags
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
@@ -126,9 +126,8 @@ void printrez(list<stud>& grupe) {
         student.galut_iv = galutinis;
     }
 
-    sorting(grupe); // Sort students
+    sorting(grupe);
 
-    // Print student information
     cout << "Vardas              Pavarde             ";
     if (vid_med == "v")
         cout << "Galutinis (Vid.)" << endl;
@@ -281,7 +280,7 @@ void pasirinkimas6(std::list<stud>& grupe, std::string& filename2, int& duom, st
     cout << "Irasykite duomenu failo pavadinima: ";
     cin >> filename;
 
-    list<stud> saunuoliai; // Students with a final grade of 5 or above
+    //list<stud> saunuoliai;
     list<stud> vargsai;
 
     stringstream my_buffer;
@@ -291,7 +290,6 @@ void pasirinkimas6(std::list<stud>& grupe, std::string& filename2, int& duom, st
         return;
     }
 
-    // Read the file into a buffer
     my_buffer << file.rdbuf();
     file.close();
 
@@ -303,46 +301,40 @@ void pasirinkimas6(std::list<stud>& grupe, std::string& filename2, int& duom, st
     }
 
     int eilutes = 0;
-    int word_count = 0; // Count of words in the first line/////////////////////////////////////////////////////////
+    int word_count = 0;
     auto duom_read_start = std::chrono::high_resolution_clock::now();
     for (const string& line : splited) {
         istringstream iss(line);
         stud student;
 
-        // Read student's name and surname
         if (!(iss >> student.vard >> student.pav)) {
             cerr << "Error reading student's name and surname.\n";
-            continue; // Skip this line and proceed with the next
+            continue;
         }
 
-        // Read grades into the list
         int grade;
         while (iss >> grade) {
             student.rez_nd.push_back(grade);
         }
 
-        // Handle error if unable to read the final grade
         if (student.rez_nd.empty()) {
             cerr << "";
-            continue; // Skip this line and proceed with the next
+            continue;
         }
 
-        student.rez_egz = student.rez_nd.back(); // Last grade is the final grade
+        student.rez_egz = student.rez_nd.back();
 
-        std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now(); // Record end time for reading
+        std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now();
 
-        eilutes++; // Increment line counter
+        eilutes++;
 
-        // Calculate median after reading data
         MedianaVidurkis(student);
 
-        // Move the student object into the list
         grupe.push_back(std::move(student));
     }
 
     std::chrono::duration<double> duom_read_diff = std::chrono::high_resolution_clock::now() - duom_read_start;
 
-    //********************************************************************************************
     string vid_med;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do{
@@ -388,14 +380,12 @@ void pasirinkimas6(std::list<stud>& grupe, std::string& filename2, int& duom, st
 
     grupe.clear();
     vargsai.clear();
-    saunuoliai.clear();
+    //saunuoliai.clear();
 
     cout <<"***********************************************************"<<endl;
-    //cout <<"Sukurti "<< eilutes << " irasu uztruko: "<< duom_create_diff.count() << " s\n";
     cout <<"Nuskaityti "<< eilutes << " irasu uztruko: "<< duom_read_diff.count() << " s\n";
     cout <<"Surikiuoti "<< eilutes << " irasu uztruko: "<< duom_sort_diff.count() << " s\n";
     cout <<"Irasyti "<< eilutes << " irasu uztruko: "<< duom_write_diff.count() << " s\n";
-    //cout <<"Visos programos veikimo laikas su "<< eilutes << " irasu: "<< duom_create_diff.count()+duom_read_diff.count()+duom_sort_diff.count()+duom_write_diff.count() << " s\n";
     cout <<"***********************************************************"<<endl; 
     cout << endl;
 }

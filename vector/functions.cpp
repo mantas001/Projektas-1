@@ -8,7 +8,7 @@
 using namespace std;
 const int M = 15; // namu darbu uzduociu kiekis kai generuojama atsitiktinai
 
-void pasirinkimas1(vector<stud>& grupe) {//done
+void pasirinkimas1(vector<stud>& grupe) {
     try {
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -49,7 +49,7 @@ void pasirinkimas1(vector<stud>& grupe) {//done
     }
 }
 
-void pasirinkimas2(vector<stud>& grupe) {//done
+void pasirinkimas2(vector<stud>& grupe) {
     try {
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -77,7 +77,7 @@ void pasirinkimas2(vector<stud>& grupe) {//done
     }
 }
 
-void pasirinkimas3(vector<stud>& grupe) {//done
+void pasirinkimas3(vector<stud>& grupe) {
     try{
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -105,7 +105,7 @@ void pasirinkimas3(vector<stud>& grupe) {//done
     }
 }
 
-void printrez(vector<stud>& grupe) {//done
+void printrez(vector<stud>& grupe) {
     string vid_med;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do{
@@ -298,7 +298,7 @@ void pasirinkimas6(std::vector<stud>& grupe, string& filename2, int& duom, std::
     cout << "Irasykite duomenu failo pavadinima: ";
     cin >> filename;
 
-    vector<stud> saunuoliai; // Students with a final grade of 5 or above
+    //vector<stud> saunuoliai;
     vector<stud> vargsai;
 
     stringstream my_buffer;
@@ -369,6 +369,7 @@ void pasirinkimas6(std::vector<stud>& grupe, string& filename2, int& duom, std::
         grupe[i].galut_iv = galutinis;
     }
     //************************
+
     auto duom_sort_start = std::chrono::high_resolution_clock::now();
     saunuoliai_vargsai(grupe, vargsai);
     std::chrono::duration<double> duom_sort_diff = std::chrono::high_resolution_clock::now() - duom_sort_start;

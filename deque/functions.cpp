@@ -8,7 +8,7 @@
 using namespace std;
 const int M = 15; // namu darbu uzduociu kiekis kai generuojama atsitiktinai
 
-void pasirinkimas1(deque<stud>& grupe) {//done
+void pasirinkimas1(deque<stud>& grupe) {
     try {
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -44,11 +44,11 @@ void pasirinkimas1(deque<stud>& grupe) {//done
         printrez(grupe);
     } catch (const exception& e) {
         cerr << "Klaida: " << e.what() << endl;
-        cin.clear(); // Clear error flags
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
-void pasirinkimas2(deque<stud>& grupe) {//done
+void pasirinkimas2(deque<stud>& grupe) {
     try {
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -71,12 +71,12 @@ void pasirinkimas2(deque<stud>& grupe) {//done
         printrez(grupe);
     } catch (const exception& e) {
         cerr << "Klaida: " << e.what() << endl;
-        cin.clear(); // Clear error flags
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
-void pasirinkimas3(deque<stud>& grupe) {//done
+void pasirinkimas3(deque<stud>& grupe) {
     try{
         int n;
         cout << "Kiek studentu yra grupeje? ";
@@ -99,12 +99,12 @@ void pasirinkimas3(deque<stud>& grupe) {//done
         printrez(grupe);
     } catch (const exception& e) {
         cerr << "Klaida: " << e.what() << endl;
-        cin.clear(); // Clear error flags
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
 
-void printrez(deque<stud>& grupe) {//done
+void printrez(deque<stud>& grupe) {
     string vid_med;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do{
@@ -120,11 +120,11 @@ void printrez(deque<stud>& grupe) {//done
         double galutinis = (0.4 * a) + (0.6 * grupe[i].rez_egz);
         grupe[i].galut_iv=galutinis;
     }
+
     //rikiavimas
     sorting(grupe);
     //**********
 
-    
     cout << "Vardas              Pavarde             "; if (vid_med == "v") cout <<"Galutinis (Vid.)"<< endl;
                                             else if (vid_med == "m") cout <<"Galutinis (Med.)"<< endl;
     cout << "--------------------------------------------------------" << endl;
@@ -217,11 +217,12 @@ void pasirinkimas4(deque<stud>& grupe) {
         grupe[i].galut_iv=galutinis;
     }
     //************************
+
     //rikiavimas
     sorting(grupe);
     //**********
+
     //printrez i faila*************
-    
     
     fr << "Vardas              Pavarde             "; if (vid_med == "v") fr <<"Galutinis (Vid.)"<< endl;
                                             else if (vid_med == "m") fr <<"Galutinis (Med.)"<< endl;
@@ -230,7 +231,7 @@ void pasirinkimas4(deque<stud>& grupe) {
     for (int i = 0; i < grupe.size(); i++) {
         fr << left << setw(20) << grupe[i].vard << left << setw(20) << grupe[i].pav << left << setw(20) << setprecision(3) << grupe[i].galut_iv << endl;
     }
-    diff = std::chrono::high_resolution_clock::now()-start; // Skirtumas (s)
+    diff = std::chrono::high_resolution_clock::now()-start;
     fr << "--------------------------------------------------------\n";
     fr <<"Irasyti duomenis uztruko: "<< diff.count() << " s\n";
     fr.close();
@@ -318,7 +319,7 @@ void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::c
     cout << "Irasykite duomenu failo pavadinima: ";
     cin >> filename;
 
-    deque<stud> saunuoliai; // Students with a final grade of 5 or above
+    deque<stud> saunuoliai;
     deque<stud> vargsai;
 
     stringstream my_buffer;
@@ -328,7 +329,6 @@ void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::c
         return;
     }
 
-    // Read the file into a buffer
     my_buffer << file.rdbuf();
     file.close();
 
@@ -340,46 +340,40 @@ void pasirinkimas6(std::deque<stud>& grupe, string& filename2, int& duom, std::c
     }
 
     int eilutes = 0;
-    int word_count = 0; // Count of words in the first line/////////////////////////////////////////////////////////
     auto duom_read_start = std::chrono::high_resolution_clock::now();
     for (const string& line : splited) {
         istringstream iss(line);
         stud student;
 
-        // Read student's name and surname
         if (!(iss >> student.vard >> student.pav)) {
             cerr << "Error reading student's name and surname.\n";
-            continue; // Skip this line and proceed with the next
+            continue;
         }
 
-        // Read grades into the deque
         int grade;
         while (iss >> grade) {
             student.rez_nd.push_back(grade);
         }
 
-        // Handle error if unable to read the final grade
+
         if (student.rez_nd.empty()) {
             cerr << "";
-            continue; // Skip this line and proceed with the next
+            continue;
         }
 
-        student.rez_egz = student.rez_nd.back(); // Last grade is the final grade
+        student.rez_egz = student.rez_nd.back();
 
-        std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now(); // Record end time for reading
+        std::chrono::high_resolution_clock::time_point end_reading = std::chrono::high_resolution_clock::now();
 
-        eilutes++; // Increment line counter
+        eilutes++;
 
-        // Calculate median after reading data
         MedianaVidurkis(student);
 
-        // Move the student object into the deque
         grupe.push_back(std::move(student));
     }
 
     std::chrono::duration<double> duom_read_diff = std::chrono::high_resolution_clock::now() - duom_read_start;
 
-    //********************************************************************************************
     string vid_med;
     cout << "Skaiciuoti galutini ivertinima naudojant vidurki ar mediana? (v, m) ";
     do {
